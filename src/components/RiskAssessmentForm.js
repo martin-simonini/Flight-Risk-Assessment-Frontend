@@ -31,13 +31,16 @@ function RiskAssessmentForm() {
     const [typeOfFlight, setTypeOfFlight] = useState("pattern");
     /*If they are going on a cross country, to what airports*/
     const [xcDestination, setXcDestination] = useState("");
-
+    /*If they are going on a cross country, what are their alternates*/
+    const [xcAlternate, setXcAlternate] = useState("");
+    /*Will they be doing the xc under IFR or VFR?*/
+    const [xcFlightRules, setXcFlightRules] = useState("");
     const [showDynamicQuestions, setShowDynamicQuestions] = useState(false);
 
 
     function generateData(){
         const formattedDepartureDate = moment(departureTime).utc().format("MM/DD/yyyy HH:mm").toString();
-        const data = {'departureTime':formattedDepartureDate,departureAirport,studentName,studentLevel,isDualFlight,prevFlights,flightDuty,categoryOfFlight,typeOfFlight,xcDestination}
+        const data = {'departureTime':formattedDepartureDate,departureAirport,studentName,studentLevel,isDualFlight,prevFlights,flightDuty,categoryOfFlight,typeOfFlight,xcDestination,xcFlightRules,xcAlternate}
         return data;
     }
 
@@ -174,7 +177,11 @@ function RiskAssessmentForm() {
                         typeOfFlight={typeOfFlight}
                         eventHandler={setTypeOfFlight}
                         xcDestination={xcDestination}
+                        xcAlternate={xcAlternate}
+                        xcFlightRules={xcFlightRules}
                         setXcDestination={setXcDestination}
+                        setXcAlternate={setXcAlternate}
+                        setXcFlightRules={setXcFlightRules}
                     />
 
 

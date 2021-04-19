@@ -55,6 +55,9 @@
 	color: #31931c;
 }
 
+.mvfr{
+	color: #0e0baf
+}
 .ifr{
 	color: #e0000c
 }
@@ -66,9 +69,4 @@
 .error{
 	margin-bottom: 2em;
 	color: red;
-}
-
-.dynamicContainer{
-	overflow: scroll;
-	height: 100%;
 }
