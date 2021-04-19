@@ -4,11 +4,12 @@ import axios from 'axios';
 import {BsChevronDoubleDown, BsChevronDoubleRight} from "react-icons/all";
 
 
-import AirSigmetModal from "./AirSigmetAccordion";
+import AirSigmetModal from "./dynamic_subcomponents/AirSigmetAccordion";
 import './../stylesheets/RiskAssessmentForm.css';
 import './../stylesheets/AdminPanel.css';
-import AirSigmetAccordion from "./AirSigmetAccordion";
-import PirepAccordion from "./PirepAccordion";
+import AirSigmetAccordion from "./dynamic_subcomponents/AirSigmetAccordion";
+import PirepAccordion from "./dynamic_subcomponents/PirepAccordion";
+import IFRCrossContry from "./IFRCrossCountry";
 
 
 function DynamicFormInput(props) {
@@ -27,11 +28,11 @@ function DynamicFormInput(props) {
         primaryRunway: ''
     });
     const [isInstrumentCurrent, setIsInstrumentCurrent] = useState("No");
+    const [departureIAP, setDepartureIAP] = useState("");
     const [acceptableWinds, setAcceptableWinds] = useState("No");
     const [requireWinds, setRequireWinds] = useState(false);
     const [displayAirSigmets, setDisplayAirSigmets] = useState([]);
     const [displayPireps, setDisplayPireps] = useState([]);
-    const [acceptedAirSigmets, setAcceptedAirSigmets] = useState([]);
 
 
     useEffect(() => {
@@ -60,12 +61,14 @@ function DynamicFormInput(props) {
         })
     }, []);
 
+    /*This method will check if the crosswind is within limiations*/
     function checkCrosswind(data) {
         //TODO: get threshold values from backend
         //console.log(currentWeather);
         setRequireWinds(data.crosswind >= 10 || data.crosswind_gust >= 10 || data.headwind >= 15 || data.headwind_gust >= 15);
     }
 
+    /*Formats the crosswind/headwind. If there is no gusts it should just display the winds. With gusts the gust should be preceded by a 'G'. Ex: 12G20*/
     function getWind(isCrosswind) {
         if (isCrosswind) {
             if (currentWeather.crosswind_gust === 0)
@@ -80,8 +83,9 @@ function DynamicFormInput(props) {
         }
     }
 
-    function checkIFR() {
-        if (currentWeather.metar === '')
+
+    function isDepartureIFR() {
+        if (currentWeather.metar === null)
             return false;
         return (currentWeather.metar.flightCategory === "IFR" || currentWeather.metar.flightCategory === "LIFR");
     }
@@ -101,6 +105,7 @@ function DynamicFormInput(props) {
                     <span className="display-metar">{currentWeather.metar.rawText}</span>
                     <h4><u>{props.requestData.typeOfFlight === "aux_field"? "Auxiliary Airport METARs" : "Destination Airport METARs"}: </u></h4>
                     {currentWeather.destinationMetar.map(i => {
+                        /*The color coding is VFR - Green text, IFR - Red text, LIFR - Magenta text. Returns appropriate color.*/
                         if(i === null)
                             return (<span className="error">UNABLE TO DISPLAY METAR. Check Airport CODE.</span>)
                         if (i.flightCategory === "VFR")
@@ -116,7 +121,7 @@ function DynamicFormInput(props) {
     }
 
         return (
-            <Container>
+            <Container className="dynamicContainer">
                 <Row>
                     <Col>
                         <Jumbotron fluid className="jumbo">
@@ -132,7 +137,7 @@ function DynamicFormInput(props) {
                         </Col>
                     </Row>
 
-                    {checkIFR &&
+                    {isDepartureIFR() &&
                     <Form.Group as={Row} controlId="isInstrumentCurrent">
                         <Form.Label column md="4">Are you instrument Proficient and Current?</Form.Label>
                         <Form.Control as="select" column md="8" className="studentInfo" name="student_level"
@@ -140,6 +145,14 @@ function DynamicFormInput(props) {
                                       value={isInstrumentCurrent}>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
+                        </Form.Control>
+                        <Form.Label column md="4">What is teh best IAP Avialable? </Form.Label>
+                        <Form.Control as="select" column md="8" className="studentInfo" name="student_level"
+                                      onChange={e => setDepartureIAP(e.target.value)}
+                                      value={departureIAP}>
+                            <option value="Precision">Precision</option>
+                            <option value="Non-Precision">Non-Precision</option>
+                            <option value="Circling">Circling</option>
                         </Form.Control>
                     </Form.Group>
                     }
@@ -182,6 +195,9 @@ function DynamicFormInput(props) {
                         </Col>
                     </Form.Group>
                     }
+
+                    <IFRCrossContry />
+
                 </Form>
 
             </Container>

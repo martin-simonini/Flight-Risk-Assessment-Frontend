@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from "react";
 
-import '../stylesheets/accordion.css';
+import '../../stylesheets/accordion.css';
 import {Accordion, Card} from "react-bootstrap";
 import {BiPlus} from "react-icons/all";
 

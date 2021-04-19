@@ -7,7 +7,7 @@ import moment from 'moment';
 import notams from 'notams';
 
 import FlightDutyFormInput from "./FlightDutyFormInput";
-import TypeOfFlightFormInput from "./TypeOfFlightFormInput";
+import TypeOfFlightFormInput from "./dynamic_subcomponents/TypeOfFlightFormInput";
 import './../stylesheets/RiskAssessmentForm.css';
 import './../stylesheets/AdminPanel.css';
 import DynamicFormInput from "./DynamicFormInput";
@@ -70,7 +70,7 @@ function RiskAssessmentForm() {
     if( !showDynamicQuestions)
     {
         return (
-            <Container>
+            <Container className="overflow-auto">
                 <Link to="/AdminPanel/SearchStudent" ><Button style={{ float: "right" }} className="btn dash-btn">Admin</Button></Link>
                 <Jumbotron fluid className="jumbo">
                     <h1 className="text-center">Risk Assessment Form</h1>

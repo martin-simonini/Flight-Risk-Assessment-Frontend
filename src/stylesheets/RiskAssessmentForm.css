@@ -1,5 +1,6 @@
 .studentInfo{
     width: 50%;
+	margin-bottom: 2em;
 }
 
 .risk-assessment-form{
@@ -65,4 +66,9 @@
 .error{
 	margin-bottom: 2em;
 	color: red;
+}
+
+.dynamicContainer{
+	overflow: scroll;
+	height: 100%;
 }
