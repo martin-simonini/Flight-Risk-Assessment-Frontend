@@ -102,7 +102,7 @@ class CurrentSettings extends Component{
             )
         }
         else {
-            return(<div>The page is loading</div>)
+            return(<div>The page is loading...</div>)
         }
     }
 

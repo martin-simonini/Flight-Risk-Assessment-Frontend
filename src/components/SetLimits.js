@@ -10,9 +10,13 @@ class SetLimits extends Component {
   constructor(props){
     super(props)
 
-    this.state = ({group: "ifr", category: "departure", max: "", items: [], loaded: false,})
+    this.state = ({group: "ifr", category: "departure", items: [], loaded: false,})
 
-    this.change = this.change.bind(this)
+    this.input = [];
+
+    this.changeMax = this.changeMax.bind(this)
+    this.changeMid = this.changeMid.bind(this)
+    this.changeLow = this.changeLow.bind(this)
   }
 
   componentDidMount() {
@@ -42,19 +46,16 @@ class SetLimits extends Component {
     }
   }
 
-  change(e){
-    this.setState({max: e.target.value})
-  }
-
   // This function updates the safety limits in the database with the value given.
-  update(limit, value, event){
+  update(limit, event){
     console.log("group: ", this.state.group)
     console.log("category: ", this.state.category)
     console.log("group: ", event.target.name)
     console.log("limit: ", limit)
-    console.log("value: ", this.state.max)
+    console.log("ref: ", this.input[event.target.name + limit].value)
   }
 
+  // This function return the form for setting the limits.
   display(){
     const itemList = this.state.items.map((item) =>{
       if(item.ranges !== null && item.group === this.state.group && item.category === this.state.category)
@@ -63,22 +64,22 @@ class SetLimits extends Component {
             <Form.Row>
               <FormGroup>
                 <Form.Label>Max: </Form.Label>
-                <Form.Control type="number" onChange={this.change} ></Form.Control>
-                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "max", "value")}>Set</Button>
+                <Form.Control type="number" ref={input => this.input[item.name + "max"] = input} ></Form.Control>
+                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "max")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
               <FormGroup>
                 <Form.Label>Mid: </Form.Label>
-                <Form.Control type="number"></Form.Control>
-                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "mid", "value")}>Set</Button>
+                <Form.Control type="number" ref={input => this.input[item.name + "mid"] = input} ></Form.Control>
+                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "mid")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
               <FormGroup>
                 <Form.Label>Low: </Form.Label>
-                <Form.Control type="number"></Form.Control>
-                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "low", "value")}>Set</Button>
+                <Form.Control type="number" ref={input => this.input[item.name + "low"] = input} ></Form.Control>
+                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "low")}>Set</Button>
               </FormGroup>
             </Form.Row>
           </div>
@@ -88,10 +89,10 @@ class SetLimits extends Component {
         <Form inline className="section">
         <div>
         <Row>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "departure")}>departure</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "enroute")}>enroute</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "destination")}>destination</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "physiology")}>physiology</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "departure")}>Departure</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "enroute")}>Enroute</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "destination")}>Destination</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "physiology")}>Physiology</Button>
         </Row>
         <h1>{this.state.category}</h1>
         {itemList}
@@ -103,12 +104,12 @@ class SetLimits extends Component {
         <Form inline className="section">
         <div>
         <Row>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "localPattern")}>localPattern</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "departure")}>departure</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "enroute")}>enroute</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "destination")}>destination</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "physiology")}>physiology</Button>
-          <Button className="btn dash-btn" onClick={this.switch.bind(this, "soloFactors")}>soloFactors</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "localPattern")}>Local Pattern</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "departure")}>Departure</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "enroute")}>Enroute</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "destination")}>Destination</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "physiology")}>Physiology</Button>
+          <Button className="btn dash-btn" onClick={this.switch.bind(this, "soloFactors")}>Solo Factors</Button>
         </Row>
         <h1>{this.state.category}</h1>
         {itemList}
@@ -118,7 +119,7 @@ class SetLimits extends Component {
   }
 
   // This renders the jumbotron and displays the current form of the limits being modified.
-  render() {
+  render() {https://edhrec.com/
     if (this.state.loaded == true){
       return (
         <div>
@@ -139,7 +140,7 @@ class SetLimits extends Component {
       )
     }
     else {
-      return(<div>The page is loading</div>)
+      return(<div>The page is loading...</div>)
     }
   }
 }
