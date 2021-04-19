@@ -11,6 +11,7 @@ import TypeOfFlightFormInput from "./dynamic_subcomponents/TypeOfFlightFormInput
 import './../stylesheets/RiskAssessmentForm.css';
 import './../stylesheets/AdminPanel.css';
 import DynamicFormInput from "./DynamicFormInput";
+import HumanFactorQuestions from "./dynamic_subcomponents/HumanFactorQuestions";
 
 function RiskAssessmentForm() {
     /* Departure time and date. Format is MM/dd/yyyy h:mm aa*/
@@ -34,13 +35,30 @@ function RiskAssessmentForm() {
     /*If they are going on a cross country, what are their alternates*/
     const [xcAlternate, setXcAlternate] = useState("");
     /*Will they be doing the xc under IFR or VFR?*/
-    const [xcFlightRules, setXcFlightRules] = useState("");
+    const [flightRules, setFlightRules] = useState("VFR");
+    const [timeInAirplane, setTimeInAirplane] = useState(0);
+    const [lastDualLanding, setLastDualLanding] = useState(0);
+    const [lastDualStall, setLastDualStall] = useState(0);
+    const [groundReferenceManeuvers, setGroundReferenceManeuvers] = useState(0);
     const [showDynamicQuestions, setShowDynamicQuestions] = useState(false);
 
 
-    function generateData(){
+    function generateData() {
         const formattedDepartureDate = moment(departureTime).utc().format("MM/DD/yyyy HH:mm").toString();
-        const data = {'departureTime':formattedDepartureDate,departureAirport,studentName,studentLevel,isDualFlight,prevFlights,flightDuty,categoryOfFlight,typeOfFlight,xcDestination,xcFlightRules,xcAlternate}
+        const data = {
+            'departureTime': formattedDepartureDate,
+            departureAirport,
+            studentName,
+            studentLevel,
+            isDualFlight,
+            prevFlights,
+            flightDuty,
+            categoryOfFlight,
+            typeOfFlight,
+            xcDestination,
+            flightRules,
+            xcAlternate
+        }
         return data;
     }
 
@@ -48,7 +66,7 @@ function RiskAssessmentForm() {
     function logState(e) {
         /* Remember that setState() is async so console.log my lag behind the state change*/
         e.preventDefault();
-        /*console.log("-----FlightAssessmentForm State Variables-----")
+        console.log("-----FlightAssessmentForm State Variables-----")
         console.log("departureTime: "+departureTime);
         console.log("Departure Airport: "+departureAirport);
         console.log("Student name: "+studentName);
@@ -58,23 +76,14 @@ function RiskAssessmentForm() {
         console.log("flightDuty: "+flightDuty);
         console.log("Category of flight: "+categoryOfFlight);
         console.log("Type of Flight: "+typeOfFlight);
-        console.log("---------------------------------------------")*/
-        axios({
-            method: 'get',
-            url: "https://notams.aim.faa.gov/notamSearch/nsapp.html?REPORTTYPE=RAW&METHOD=DISPLAYBYICAOS&ACTIONTYPE=NOTAMRETRIEVALBYICAOS&RETRIEVELOCID=KCBF&FORMATTYPE=DOMESTIC#/results",
-            headers: {"Access-Control-Allow-Origin": "*"}
-        }).then(response => {
-            console.log(response.data);
-        });
-         /*notams.fetch(['KCBF'], {format: 'DOMESTIC'}).then( results =>{
-            console.log(JSON.stringify(results));
-        })*/
-    }
-    if( !showDynamicQuestions)
-    {
+        console.log("---------------------------------------------")
+   }
+
+    if (!showDynamicQuestions) {
         return (
             <Container className="overflow-auto">
-                <Link to="/AdminPanel/SearchStudent" ><Button style={{ float: "right" }} className="btn dash-btn">Admin</Button></Link>
+                <Link to="/AdminPanel/SearchStudent"><Button style={{float: "right"}}
+                                                             className="btn dash-btn">Admin</Button></Link>
                 <Jumbotron fluid className="jumbo">
                     <h1 className="text-center">Risk Assessment Form</h1>
                 </Jumbotron>
@@ -141,6 +150,35 @@ function RiskAssessmentForm() {
 
                     </Form.Row>
 
+                    <Form.Row>
+                        <Form.Group as={Row} controlId="missionSelect">
+                            <Form.Label column md="4" >Flight Rules</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="student_level"
+                                onChange={e => setFlightRules(e.target.value)}
+                                value={flightRules}
+                                className="studentInfo"
+                                column md="8"
+                            >
+                                <option value="xc_vfr">VFR</option>
+                                <option value="xc_ifr">IFR</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Form.Row>
+
+                    {flightRules==="VFR" && !isDualFlight &&
+                       <HumanFactorQuestions
+                           studentLevel={studentLevel}
+                           setTimeInAirplane={setTimeInAirplane}
+                           setLastDualLanding={setLastDualLanding}
+                           setLastDualStall={setLastDualStall}
+                           groundReferenceManeuvers={groundReferenceManeuvers}
+                           setGroundReferenceManeuvers={setGroundReferenceManeuvers}
+                           typeOfFlight={typeOfFlight}
+                       />
+
+                    }
 
                     <Form.Group as={Row} controlId="previousFlights">
                         <Form.Label column md="4">Previous Flights that day</Form.Label>
@@ -178,14 +216,12 @@ function RiskAssessmentForm() {
                         eventHandler={setTypeOfFlight}
                         xcDestination={xcDestination}
                         xcAlternate={xcAlternate}
-                        xcFlightRules={xcFlightRules}
                         setXcDestination={setXcDestination}
                         setXcAlternate={setXcAlternate}
-                        setXcFlightRules={setXcFlightRules}
                     />
 
 
-                    <Button className="dash-btn" onClick={()=>setShowDynamicQuestions(true)}>
+                    <Button className="dash-btn" onClick={() => setShowDynamicQuestions(true)}>
                         Next
                     </Button>
                     <Button className="dash-btn" onClick={logState}>
@@ -194,10 +230,9 @@ function RiskAssessmentForm() {
                 </Form>
             </Container>
         );
-    }
-    else {
+    } else {
         const data = generateData();
-        return (<DynamicFormInput requestData={data} />);
+        return (<DynamicFormInput requestData={data}/>);
 
     }
 }

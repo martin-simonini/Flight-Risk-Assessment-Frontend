@@ -1,5 +1,5 @@
-
 import {React} from "react";
+
 
 import '../../stylesheets/accordion.css';
 import {Accordion, Card} from "react-bootstrap";

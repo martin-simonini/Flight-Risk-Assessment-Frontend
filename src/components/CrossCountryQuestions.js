@@ -46,7 +46,7 @@ function CrossCountryQuestions({flightRules}) {
 //<Form.Label>Average Enroute Ceiling: </Form.Label>
     return (
         <>
-            <Row>
+        <Row>
                 <Col md="12">
                     <Form.Label className="px-3 overflow-auto">Average Enroute Ceilings: </Form.Label>
                     <div className="overflow-auto">

@@ -38,20 +38,6 @@ function TypeOfFlightFormInput(props) {
     } else {
         return (
             <>
-                <Form.Row>
-                    <Form.Group as={Col} controlId="missionSelect">
-                        <Form.Label>Flight Rules</Form.Label>
-                        <Form.Control
-                            as="select"
-                            name="student_level"
-                            onChange={e => props.setXcFlightRules(e.target.value)}
-                            value={props.xcFlightRules}
-                        >
-                            <option value="xc_vfr">VFR</option>
-                            <option value="xc_ifr">IFR</option>
-                        </Form.Control>
-                    </Form.Group>
-                </Form.Row>
 
                 <Form.Row>
                     <Form.Group as={Col} controlId="missionSelect">
