@@ -19,7 +19,7 @@ class CurrentSettings extends Component{
     }
 
     componentDidMount() {
-        fetch("/adminThresholds")
+        fetch("/adminThresholds/getAll")
             .then(res => res.json())
             .then(
                 (result) => {

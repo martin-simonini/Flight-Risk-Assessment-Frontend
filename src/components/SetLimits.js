@@ -13,14 +13,10 @@ class SetLimits extends Component {
     this.state = ({group: "ifr", category: "departure", items: [], loaded: false,})
 
     this.input = [];
-
-    this.changeMax = this.changeMax.bind(this)
-    this.changeMid = this.changeMid.bind(this)
-    this.changeLow = this.changeLow.bind(this)
   }
 
   componentDidMount() {
-    fetch("/adminThresholds")
+    fetch("/adminThresholds/getAll")
       .then(res => res.json())
       .then(
           (result) => {
@@ -48,11 +44,28 @@ class SetLimits extends Component {
 
   // This function updates the safety limits in the database with the value given.
   update(limit, event){
-    console.log("group: ", this.state.group)
-    console.log("category: ", this.state.category)
-    console.log("group: ", event.target.name)
-    console.log("limit: ", limit)
-    console.log("ref: ", this.input[event.target.name + limit].value)
+    if (this.input[event.target.name + limit].value !== ''){
+      switch(limit){
+        case("high"):
+          fetch("/adminThresholds/updateByGroupNameCategoryHigh?val=" + this.input[event.target.name + limit].value +
+            "&group=" + this.state.group +
+            "&name=" + event.target.name +
+            "&category=" + this.state.category);
+            break;
+          case("med"):
+          fetch("/adminThresholds/updateByGroupNameCategoryMed/?val=" + this.input[event.target.name + limit].value +
+            "&group=" + this.state.group +
+            "&name=" + event.target.name +
+            "&category=" + this.state.category);
+            break;
+        case("low"):
+          fetch("/adminThresholds/updateByGroupNameCategoryLow/?val=" + this.input[event.target.name + limit].value +
+            "&group=" + this.state.group +
+            "&name=" + event.target.name +
+            "&category=" + this.state.category);
+            break;
+      }
+    }
   }
 
   // This function return the form for setting the limits.
@@ -63,16 +76,16 @@ class SetLimits extends Component {
             <h5><b>{item.name}</b></h5>
             <Form.Row>
               <FormGroup>
-                <Form.Label>Max: </Form.Label>
-                <Form.Control type="number" ref={input => this.input[item.name + "max"] = input} ></Form.Control>
-                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "max")}>Set</Button>
+                <Form.Label>High: </Form.Label>
+                <Form.Control type="number" ref={input => this.input[item.name + "high"] = input} ></Form.Control>
+                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "high")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
               <FormGroup>
-                <Form.Label>Mid: </Form.Label>
-                <Form.Control type="number" ref={input => this.input[item.name + "mid"] = input} ></Form.Control>
-                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "mid")}>Set</Button>
+                <Form.Label>Medium: </Form.Label>
+                <Form.Control type="number" ref={input => this.input[item.name + "med"] = input} ></Form.Control>
+                <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "med")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
