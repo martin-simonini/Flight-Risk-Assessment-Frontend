@@ -76,21 +76,21 @@ class SetLimits extends Component {
             <h5><b>{item.name}</b></h5>
             <Form.Row>
               <FormGroup>
-                <Form.Label>High: </Form.Label>
+                <Form.Label>High {item.ranges} </Form.Label>
                 <Form.Control type="number" ref={input => this.input[item.name + "high"] = input} ></Form.Control>
                 <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "high")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
               <FormGroup>
-                <Form.Label>Medium: </Form.Label>
+                <Form.Label>Medium {item.ranges} </Form.Label>
                 <Form.Control type="number" ref={input => this.input[item.name + "med"] = input} ></Form.Control>
                 <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "med")}>Set</Button>
               </FormGroup>
             </Form.Row>
             <Form.Row>
               <FormGroup>
-                <Form.Label>Low: </Form.Label>
+                <Form.Label>Low {item.ranges} </Form.Label>
                 <Form.Control type="number" ref={input => this.input[item.name + "low"] = input} ></Form.Control>
                 <Button name={item.name} className="btn btn-default" onClick={this.update.bind(this, "low")}>Set</Button>
               </FormGroup>
