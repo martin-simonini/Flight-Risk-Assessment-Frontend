@@ -35,8 +35,16 @@ function DynamicFormInput(props) {
     const [displayAirSigmets, setDisplayAirSigmets] = useState([]);
     const [displayPireps, setDisplayPireps] = useState([]);
 
+    const [enrouteCeiling, setEnrouteCeiling] = useState(1000);
+    const [enrouteVis, setEnrouteVis] = useState(4);
+    const [thunderstorm, setThunderstorm] = useState(0);
+    const [fuelAtAlt, setFuelAtAlt] = useState(90);
+    const [vfrCheckpoints, setVFRCheckpoints] = useState("Few to None");
+    const [timeEnroute, setTimeEnroute] = useState(0);
+
 
     useEffect(() => {
+        time_of_day();
         console.log(props.requestData)
         axios({
             method: 'post',
@@ -62,6 +70,72 @@ function DynamicFormInput(props) {
         })
     }, []);
 
+    function generate_risk_info(){
+        const is_local = props.requestData.typeOfFlight === "pattern" || this.props.typeOfFlight === "practice_area";
+        const is_commercial = !(props.requestData.studentLevel === "private");
+        time_of_day();
+
+        const data = {
+           "is_local": is_local,
+           "is_dual":  props.requestData.isDualFlight,
+           "is_commercial": is_commercial,
+           "departure_vis": currentWeather.metar.visibility,
+           "departure_ceilings": currentWeather.metar.ceiling,
+           "departure_winds": currentWeather.metar.winds.windSpeed,
+           "departure_gusts": currentWeather.metar.windGust,
+           "departure_crosswind": currentWeather.metar.crosswind,
+           "enroute_ceilings": enrouteCeiling,
+           "enroute_vis": enrouteVis,
+           "vfr_checkpoints": vfrCheckpoints,
+           "time_enroute": timeEnroute,
+           "fuel_at_alternate": fuelAtAlt,
+           "destination_vis": currentWeather.destinationMetar[0].visibility,
+           "destination_ceilings": currentWeather.destinationMetar[0].ceiling,
+           "destination_winds": currentWeather.destinationMetar[0].windSpeed,
+           "destination_gusts": currentWeather.destinationMetar[0].windGust,
+           "destination_crosswind": currentWeather.destinationMetar[0].crosswind,
+           "alternate_vis": currentWeather.alternateMetar.visibility,
+           "alternate_ceilings": currentWeather.alternateMetar.ceiling,
+           "alternate_winds": currentWeather.alternateMetar.windSpeed,
+           "alternate_gusts": currentWeather.alternateMetar.windGust,
+           "alternate_crosswind": currentWeather.alternateMetar.crosswind,
+/*
+           "time_of_day": //TODO
+*/
+           "flight_duty_period": props.requestData.flightDuty,
+           "previous_flights": props.requestData.prevFlights,
+           "type_of_flight": type_of_flight(),
+           "temperature": currentWeather.metar.temperature,
+           "flight_location": flight_location(),
+           "ground_ref_maneuvers": props.requestData.groundReferenceManeuvers,
+           "experience_in_airplane": props.timeInAirplane,
+           "last_dual_landing": props.lastDualLanding,
+           "last_dual_stall": props.lastDualStall
+       }
+    }
+
+    function time_of_day(){
+        axios.get("https://api.sunrise-sunset.org/json?lat="+currentWeather.departure_lat+"&lng="+currentWeather.departure_long).then(response =>{
+            console.log(response.data);
+
+        })
+    }
+    function flight_location(){
+        if(props.requestData.typeOfFlight === "pattern" || props.requestData.typeOfFlight === "practice_area")
+            return "Local Area";
+        else if(props.requestData.typeOfFlight === "aux_field")
+            return "Aux Field";
+        return "cross_country";
+    }
+
+    function type_of_flight(){
+        if(props.requestData.categoryOfFlight === "normal")
+            return "Normal";
+        else if(props.requestData.categoryOfFlight === "stage_check")
+            return "Stage Check";
+        else
+           return "FAA Check";
+    }
     /*This method will check if the crosswind is within limiations*/
     function checkCrosswind(data) {
         //TODO: get threshold values from backend
@@ -220,7 +294,16 @@ function DynamicFormInput(props) {
                 </Form.Group>
                 }
 
-                <CrossCountryQuestions flightRules={props.requestData.xcFlightRules} />
+                <CrossCountryQuestions
+                    flightRules={props.requestData.xcFlightRules}
+                    setEnrouteCeiling={setEnrouteCeiling}
+                    setEnrouteVis={setEnrouteVis}
+                    setThunderstorm={setThunderstorm}
+                    setFuelAtAlt={setFuelAtAlt}
+                    vfrCheckpoints={vfrCheckpoints}
+                    setVFRCheckpoints={setVFRCheckpoints}
+                    setTimeEnroute={setTimeEnroute}
+                />
 
             </Form>
 

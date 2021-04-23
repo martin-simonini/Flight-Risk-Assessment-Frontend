@@ -3,13 +3,15 @@ import {Button, Card, Row, Col, Form, Jumbotron, Container, useAccordionToggle} 
 import {Range, getTrackBackground} from "react-range";
 import RangeSelect from "./dynamic_subcomponents/RangeSelect";
 
-function CrossCountryQuestions({flightRules}) {
-
-    const [enrouteCeiling, setEnrouteCeiling] = useState(1000);
-    const [enrouteVis, setEnrouteVis] = useState(4);
-    const [thunderstorm, setThunderstorm] = useState(0);
-    const [fuelAtAlt, setFuelAtAlt] = useState(90);
-    const [vfrCheckpoints, setVFRCheckpoints] = useState("Few to None");
+function CrossCountryQuestions({
+                                   flightRules,
+                                   setEnrouteCeiling,
+                                   setEnrouteVis,
+                                   setThunderstorm,
+                                   setFuelAtAlt,
+                                   vfrCheckpoints,
+                                   setVFRCheckpoints,
+                                   setTimeEnroute}) {
 
     function ifr_questions() {
         return (
@@ -60,6 +62,15 @@ function CrossCountryQuestions({flightRules}) {
                     <Form.Label className="px-3 overflow-auto">Average Enroute Visibility: </Form.Label>
                     <div className="overflow-auto">
                         <RangeSelect min={0} max={10} step={1} setFinal={setEnrouteVis}/>
+                    </div>
+                </Col>
+            </Row>
+
+            <Row>
+                <Col md="12">
+                    <Form.Label className="px-3 overflow-auto">Time Enroute</Form.Label>
+                    <div className="overflow-auto">
+                        <RangeSelect min={0} max={120} step={10} setFinal={setTimeEnroute}/>
                     </div>
                 </Col>
             </Row>

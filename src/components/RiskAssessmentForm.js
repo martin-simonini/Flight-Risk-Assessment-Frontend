@@ -25,7 +25,7 @@ function RiskAssessmentForm() {
     /*How Many flights have they flown previously that day*/
     const [prevFlights, setPrevFlights] = useState(0);
     /*When was their first flight today.*/
-    const [flightDuty, setFlightDuty] = useState();
+    const [flightDuty, setFlightDuty] = useState(0);
     /*What is the category of flight: Normal, Stage Check, FAA checkride*/
     const [categoryOfFlight, setCategoryOfFlight] = useState("normal");
     /*Where are they going? Staying local or going on a cross country*/
@@ -36,7 +36,7 @@ function RiskAssessmentForm() {
     const [xcAlternate, setXcAlternate] = useState("");
     /*Will they be doing the xc under IFR or VFR?*/
     const [flightRules, setFlightRules] = useState("VFR");
-    const [timeInAirplane, setTimeInAirplane] = useState(0);
+    const [timeInAirplane, setTimeInAirplane] = useState(20);
     const [lastDualLanding, setLastDualLanding] = useState(0);
     const [lastDualStall, setLastDualStall] = useState(0);
     const [groundReferenceManeuvers, setGroundReferenceManeuvers] = useState(0);
@@ -232,7 +232,7 @@ function RiskAssessmentForm() {
         );
     } else {
         const data = generateData();
-        return (<DynamicFormInput requestData={data}/>);
+        return (<DynamicFormInput requestData={data} timeInAirplane={timeInAirplane} lastDualLanding={lastDualLanding} lastDualStall={lastDualStall}/>);
 
     }
 }
