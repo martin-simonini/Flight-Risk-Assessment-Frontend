@@ -1,0 +1,28 @@
+.section {
+	align-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.jumbo {
+	align-content: center;
+	align-items: center;
+	text-align: center;
+	color:#FFF;
+	background-color: #000000;
+}
+
+.dash-btn {
+	background-color: #000000;
+	color:#FFF;
+	border-color: #FF0000;
+}
+.dash-btn:hover {
+	background-color: #a20000;
+}
+
+.btn-default {
+	background-color: #6c757d;
+	color:#FFF;
+	border-color: #6c757d;
+}

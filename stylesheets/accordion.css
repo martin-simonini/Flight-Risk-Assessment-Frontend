@@ -1,0 +1,22 @@
+.airsigmet-card{
+    padding: .15em 0 .15em 0.3em;
+}
+
+.airsigmet-card-header{
+    text-align: center;
+    background-color: #D0DAEC;
+    align-self: center;
+    display: flex;
+    height: 30px;
+    align-content: center;
+}
+
+.airsigmet-card-body{
+    border-radius: 0px;
+    background-color: #d6d6d6;
+    align-self: center;
+}
+
+.pirep-raw-text{
+    text-align: center;
+}
