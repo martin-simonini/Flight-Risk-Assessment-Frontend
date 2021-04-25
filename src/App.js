@@ -3,6 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import RiskAssessmentForm from "./components/RiskAssessmentForm";
 import AdminPanelRouter from "./components/AdminPanelRouter";
+import LoginForm from "./components/LoginForm";
 
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import React from "react";
@@ -17,6 +18,7 @@ function App() {
 						<Route exact path="/AdminPanel/SearchStudent" component={AdminPanelRouter} />
             <Route exact path="/AdminPanel/CurrentSettings" component={AdminPanelRouter} />
             <Route exact path="/AdminPanel/SetLimits" component={AdminPanelRouter} />
+            <Route exact path="/Login" component={LoginForm} />
           </Switch>
 				</Router>
       </div>

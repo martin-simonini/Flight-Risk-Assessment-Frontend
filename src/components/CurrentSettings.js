@@ -59,7 +59,7 @@ class CurrentSettings extends Component{
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "enroute")}>Enroute</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "destination")}>Destination</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "physiology")}>Physiology</Button>
-                    <h3>{this.state.category}</h3>
+                    <h1>{this.state.category}</h1>
                     {listItems}
                 </Row>
             );
@@ -73,7 +73,7 @@ class CurrentSettings extends Component{
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "destination")}>Destination</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "physiology")}>Physiology</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "soloFactors")}>Solo Factors</Button>
-                    <h3>{this.state.category}</h3>
+                    <h1>{this.state.category}</h1>
                     {listItems}
                 </Row>
             );

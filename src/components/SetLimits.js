@@ -24,7 +24,7 @@ class SetLimits extends Component {
           }
       )
       this.setState({loaded: true})
-    }
+  }
 
   // This function takes in a string and switches the subcategory that is being displayed.
   switch(panel){
