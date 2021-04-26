@@ -11,7 +11,7 @@ class CurrentSettings extends Component{
         super(props);
 
         this.state = ({
-                    current: "ifr",
+                    group: "ifr",
                     category: "departure",
                     items: [],
                     loaded: false,
@@ -19,7 +19,7 @@ class CurrentSettings extends Component{
     }
 
     componentDidMount() {
-        fetch("/adminThresholds")
+        fetch("/adminThresholds/getAll")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -31,7 +31,7 @@ class CurrentSettings extends Component{
 
     // This function changes if the vfr limits are being shown or if the ifr limits are being shown.
     switchCurrent(panel){
-        this.setState({current: panel})
+        this.setState({group: panel})
         if (panel === "ifr")
             this.setState({category: "departure"})
         else
@@ -43,23 +43,23 @@ class CurrentSettings extends Component{
         this.setState({category: panel})
     }
 
-    // This function return the html for the ifr limits.
+    // This function return the html for the limits.
     Display() {
         const listItems = this.state.items.map((value) =>{
-        if(value.group === this.state.current && value.category === this.state.category)
-            return <div>
-                <b>{value.name}</b>
-                <p>Low: {value.low} | Medium: {value.med} | High: {value.high}</p>
-            </div>
+        if(value.group === this.state.group && value.category === this.state.category)
+            return <div key={value.name}>
+                    <b>{value.name}</b>
+                    <p>{value.ranges} Low: {value.low} {value.ranges} Medium: {value.med} {value.ranges} High: {value.high} {value.ranges}</p>
+                </div>
         });
-        if (this.state.current === "ifr"){
+        if (this.state.group === "ifr"){
             return (
                 <Row>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "departure")}>Departure</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "enroute")}>Enroute</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "destination")}>Destination</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "physiology")}>Physiology</Button>
-                    <h3>{this.state.category}</h3>
+                    <h1>{this.state.category}</h1>
                     {listItems}
                 </Row>
             );
@@ -73,7 +73,7 @@ class CurrentSettings extends Component{
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "destination")}>Destination</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "physiology")}>Physiology</Button>
                     <Button as={Col} className="btn dash-btn" onClick={this.switchCategory.bind(this, "soloFactors")}>Solo Factors</Button>
-                    <h3>{this.state.category}</h3>
+                    <h1>{this.state.category}</h1>
                     {listItems}
                 </Row>
             );
@@ -83,26 +83,26 @@ class CurrentSettings extends Component{
     // This renders the jumbotron and the currently selected limits.
     render() {
         if (this.state.loaded == true){
-        return (
-            <div>
-                <Jumbotron fluid className="jumbo">
-                    <h1>Admin Panel</h1>
-                    <Link to="/AdminPanel/SearchStudent"><Button className="btn dash-btn">Search Students' Forms</Button></Link>
-                    <Link to="/AdminPanel/CurrentSettings"><Button className="btn dash-btn">Current Safety Limits</Button></Link>
-                    <Link to="/AdminPanel/SetLimits"><Button className="btn dash-btn">Set Safety Limits</Button></Link>
-                </Jumbotron>
-                <Row className="section">
-                    <Row>
-                        <Button as={Col} className="btn dash-btn" onClick={this.switchCurrent.bind(this, "ifr")}>IFR Safety Limits</Button>
-                        <Button as={Col} className="btn dash-btn" onClick={this.switchCurrent.bind(this, "vfr")}>VFR Safety Limits</Button>
+            return (
+                <div>
+                    <Jumbotron fluid className="jumbo">
+                        <h1>Admin Panel</h1>
+                        <Link to="/AdminPanel/SearchStudent"><Button className="btn dash-btn">Search Students' Forms</Button></Link>
+                        <Link to="/AdminPanel/CurrentSettings"><Button className="btn dash-btn">Current Safety Limits</Button></Link>
+                        <Link to="/AdminPanel/SetLimits"><Button className="btn dash-btn">Set Safety Limits</Button></Link>
+                    </Jumbotron>
+                    <Row className="section">
+                        <Row>
+                            <Button as={Col} className="btn dash-btn" onClick={this.switchCurrent.bind(this, "ifr")}>IFR Safety Limits</Button>
+                            <Button as={Col} className="btn dash-btn" onClick={this.switchCurrent.bind(this, "vfr")}>VFR Safety Limits</Button>
+                        </Row>
+                        {this.Display()}
                     </Row>
-                    {this.Display()}
-                </Row>
-            </div>
-        )
+                </div>
+            )
         }
         else {
-            return(null)
+            return(<div>The page is loading...</div>)
         }
     }
 

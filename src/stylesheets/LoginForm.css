@@ -1,0 +1,52 @@
+.loginForm {
+ text-align: center;
+ box-sizing: border-box;
+ width: 100%;
+ max-width: 600px;
+ padding-left: 20px;
+ padding-right: 20px;
+ padding: 70px 0;
+ margin: auto;
+}
+
+.inputField {
+ padding-top: 16px;
+}
+
+.input {
+ box-sizing: border-box;
+ outline: none;
+ border: solid 2px #FF0000;
+ border-radius: 4px;
+ color: #292929;
+ width: 100%;
+ padding: 12px;
+ font-size: 16px;
+ background: rgba(255, 255, 255, 1);
+}
+
+.submitButton {
+ padding-top: 16px;
+}
+
+
+.btn-login {
+ width: 100%;
+ min-width: 280px;
+ color: #fff;
+ padding: 12px;
+ font-size: 16px;
+ font-weight: bold;
+ border: solid 2px #FF0000;
+ border-radius: 4px;
+ background-color: #000000;
+ color:#FFF;
+ cursor: pointer;
+}
+
+.warning {
+ margin-top: 12px;
+ padding: 12px;
+ font-size: 20px;
+ background: #ffcccb;
+}

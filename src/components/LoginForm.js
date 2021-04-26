@@ -1,8 +1,10 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
+import "./../stylesheets/LoginForm.css";
 import InputField from './InputField';
 import SubmitButton from './SubmitButton';
-import UserStore from './stores/UserStore';
-
+import {Link} from "react-router-dom";
+import {Button} from 'react-bootstrap';
 
 class LoginForm extends React.Component{
 	
@@ -11,15 +13,12 @@ class LoginForm extends React.Component{
 		this.state = {
 			username: '',
 			password: '',
-			buttonDisabled: false
+			incorrect: false,
 		}
 	}
 	
 	setInputValue(property, val){
 		val = val.trim();
-		if(val.length > 12) {
-			return;
-		}
 		this.setState({
 			[property]: val
 		})
@@ -29,97 +28,77 @@ class LoginForm extends React.Component{
 		this.setState({
 			username: '',
 			password: '',
-			buttonDisabled: false
 		})
 	}
 	
-	async doLogin()	{
-		
-		if(!this.state.username){
-			return;
+	doLogin()	{
+		if(this.state.username !== '' && this.state.password !== ''){
+			fetch("/professors/getByUsername/?username=" + this.state.username)
+				.then(res => res.json())
+			    .then(
+			        (result) => {
+			        	this.validate(result)
+			        }
+				)
+				.catch( (error) => 
+					this.setState({incorrect: true})
+				)
 		}
-		if(!this.state.password){
-			return;
+	}
+
+	validate(info){
+		if (info.password === this.state.password){
+			sessionStorage.setItem('loggedin', true)
+			this.props.history.push('/AdminPanel/SearchStudent')
 		}
-		
-		this.setState({
-			buttonDisabled: true
-		})
-		
-		try {
-			
-			let res = await fetch('/login', {
-				method: 'post',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					username: this.state.username,
-					password: this.state.password
-				})
-					
-			});
-			
-			let result = await res.json();
-			if (result && result.sucess) {
-				UserStore.isLoggedIn = true;
-				UserStore.username = result.username;
-			}
-			
-			else if (result && result.success === false) {
-				this.resetForm();
-				alert(result.msg);
-				
-			}
-			
+		else{
+			this.setState({incorrect: true})
 		}
-		
-		catch(e) {
-			console.log(e);
-			this.resetForm();
-		}
-		
 	}
 	
   render() {
-	  
-  return (
-  
-    <div className="loginForm">
-	<link rel="icon" href="/favicon.ico" />
-		<meta
-			name="description"
-			content="UNO Professor Login"
-		/>
-		<header>
-		Professor Login
-		</header>
-		
-	  <InputField
-		type = 'text'
-		placeholder='Username'
-		value={this.state.username ? this.state.username : ''}
-		onChange= { (val) => this.setInputValue('username', val)}
-		/>
-		
-		 <InputField
-		type = 'password'
-		placeholder='Password'
-		value={this.state.password ? this.state.password : ''}
-		onChange= { (val) => this.setInputValue('password', val)}
-		/>
-		
-		<SubmitButton
-			text='Login'
-			disabled={this.state.buttonDisabled}
-			onClick= { () => this.doLogin() }
-			/>
-	  
-	  
-    </div>
-  );
-}
+	  let warning;
+	  if (this.state.incorrect){
+	  	warning = <div className="warning">The username/password was not recognized</div>
+	  }
+	  return (
+	  	<div>
+	  		<Link to="/"><Button style={{ float: "right" }} className="btn dash-btn">Form</Button></Link>
+		    <div className="loginForm">
+				<meta
+					name="description"
+					content="UNO Professor Login"
+				/>
+
+				<h1>
+				Professor Login
+				</h1>
+				
+			  <InputField
+				type = 'text'
+				placeholder='Username'
+				value={this.state.username ? this.state.username : ''}
+				onChange= { (val) => {this.setInputValue('username', val); this.setState({incorrect: false})}}
+				/>
+				
+				 <InputField
+				type = 'password'
+				placeholder='Password'
+				value={this.state.password ? this.state.password : ''}
+				onChange= { (val) => {this.setInputValue('password', val); this.setState({incorrect: false})}}
+				/>
+				
+				{warning}
+
+				<SubmitButton
+					text='Login'
+					disabled={this.state.buttonDisabled}
+					onClick= { () => this.doLogin() }
+					/> 
+		    </div>
+		</div>
+	  );
+	}
 }
 
 export default LoginForm;

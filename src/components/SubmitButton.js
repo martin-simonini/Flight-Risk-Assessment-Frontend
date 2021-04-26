@@ -7,7 +7,7 @@ class SubmitButton extends React.Component{
     <div className="submitButton">
 	
       <button
-		className= 'btn'
+		className= 'btn-login'
 		disabled={this.props.disabled}
 		onClick={ () => this.props.onClick()}
 	  >
