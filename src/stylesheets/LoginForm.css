@@ -43,3 +43,10 @@
  color:#FFF;
  cursor: pointer;
 }
+
+.warning {
+ margin-top: 12px;
+ padding: 12px;
+ font-size: 20px;
+ background: #ffcccb;
+}

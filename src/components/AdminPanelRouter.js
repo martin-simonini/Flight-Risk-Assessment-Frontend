@@ -16,7 +16,6 @@ class AdminPanelRouter extends Component{
   }
 
   logout(){
-    console.log("clicked")
     sessionStorage.removeItem('loggedin')
   }
 
