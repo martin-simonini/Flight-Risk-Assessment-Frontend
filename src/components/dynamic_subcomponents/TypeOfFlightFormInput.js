@@ -66,6 +66,7 @@ function TypeOfFlightFormInput(props) {
                             className="departureAirport"
                             placeholder="KLNK,KOLU,KOMA"
                             value={props.xcDestination}
+                            required
                         />
                         <Form.Text muted>
                             Enter airports in a comma separated list as shown above.
@@ -84,6 +85,7 @@ function TypeOfFlightFormInput(props) {
                             className="departureAirport"
                             placeholder="KOLU"
                             value={props.xcAlternate}
+                            required
                         />
 
                     </Form.Group>
