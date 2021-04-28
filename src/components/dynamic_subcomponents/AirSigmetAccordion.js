@@ -1,14 +1,13 @@
-
 import {React} from "react";
 
-import '../stylesheets/accordion.css';
+
+import '../../stylesheets/accordion.css';
 import {Accordion, Card} from "react-bootstrap";
 import {BiPlus} from "react-icons/all";
 
 function AirSigmetAccordion({airSigmet, index})
 {
     return (
-        <Accordion>
             <Card key={index.toString()} className="airsigmet-card">
                 <Accordion.Toggle as={Card.Header} eventKey={index+1} className="airsigmet-card-header">
                     <div className="center-block">{airSigmet.type}</div> <BiPlus />
@@ -25,7 +24,6 @@ function AirSigmetAccordion({airSigmet, index})
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
-        </Accordion>
     );
 }
 
