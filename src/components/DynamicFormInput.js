@@ -455,17 +455,13 @@ function DynamicFormInput(props) {
                             setVFRCheckpoints={setVFRCheckpoints}
                             setTimeEnroute={setTimeEnroute}
                             destinationIAP={destinationIAP}
-                            setDestinationIAP={setAlternateIAP}
+                            setDestinationIAP={setDestinationIAP}
                             alternateIAP={alternateIAP}
                             setAlternateIAP={setAlternateIAP}
                             setDestinationCrosswind={setDestinationCrosswind}
                             setAlternateCrosswind={setAlternateCrosswind}
                         />}
                         <Button className="dash-btn" onClick={() => setShowResults(true)}>
-                            Submit
-                        </Button>
-                        <Button className="dash-btn"
-                                onClick={() => console.log(getCeiling(currentWeather.metar.skyCoverage))}>
                             Submit
                         </Button>
                     </Form>
@@ -475,7 +471,7 @@ function DynamicFormInput(props) {
         );
     } else {
         const data = generate_risk_info();
-        return (<ResultPage requestData={data} flightRules={props.requestData.flightRules}
+        return (<ResultPage requestData={data} flightRules={props.flightRules}
                             isLocal={isLocal} isDual={props.requestData.isDualFlight}/>)
     }
 }

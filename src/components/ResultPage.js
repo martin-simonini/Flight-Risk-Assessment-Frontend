@@ -9,7 +9,8 @@ function ResultPage(props) {
     useEffect(() => {
         console.log("Results request Data: ")
         console.log(props.requestData)
-        const url = props.requestData.flightRules === "IFR" ? "/IFRRiskCalculation" : "/VFRRiskCalculation";
+        console.log("Flight rules:"+props.flightRules);
+        const url = props.flightRules === "IFR" ? "/IFRRiskCalculation" : "/VFRRiskCalculation";
         console.log("URL: " + url);
         axios({
             method: 'post',

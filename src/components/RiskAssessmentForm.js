@@ -255,7 +255,7 @@ function RiskAssessmentForm() {
     } else {
         const data = generateData();
         return (<DynamicFormInput requestData={data} timeofFlight={timeofFlight} timeInAirplane={timeInAirplane} lastDualLanding={lastDualLanding}
-                                  />);
+                                flightRules={flightRules}  />);
 
     }
 }
