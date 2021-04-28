@@ -89,7 +89,7 @@ function RiskAssessmentForm() {
                 <Jumbotron fluid className="jumbo">
                     <h1 className="text-center">Risk Assessment Form</h1>
                 </Jumbotron>
-                <Container className="overflow-auto">
+                <Container className="overflow-x-auto">
 
                     <Form nonValidate validated={formValidation} onSubmit={() => setShowDynamicQuestions(true)}>
                         <Form.Group as={Row} controlId="departureDateAndTime">
@@ -255,7 +255,7 @@ function RiskAssessmentForm() {
     } else {
         const data = generateData();
         return (<DynamicFormInput requestData={data} timeofFlight={timeofFlight} timeInAirplane={timeInAirplane} lastDualLanding={lastDualLanding}
-                                  lastDualStall={lastDualStall}/>);
+                                  />);
 
     }
 }

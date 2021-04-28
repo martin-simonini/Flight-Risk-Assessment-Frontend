@@ -69,3 +69,67 @@
 	margin-bottom: 2em;
 	color: red;
 }
+
+.results-span{
+	font-size: x-large;
+	margin-bottom: 1em;
+	padding-bottom: 2em;
+}
+
+.results-span-low{
+	width: 100%;
+	height: 40%;
+	margin: 2.5em .5em 1.5em .5em;
+	padding: .4em;
+    color: white;
+	font-size: x-large;
+	background-color: #185f21
+}
+
+.results-span-med{
+	width: 100%;
+	height: 60%;
+	margin: 1.5em .5em 1.5em .5em;
+	padding: .4em;
+	color: white;
+	font-size: x-large;
+	background-color: #e2c35a
+}
+
+.results-span-high{
+	width: 100%;
+	height: 60%;
+	margin: 1.5em .5em 1.5em .5em;
+	padding: .4em;
+	color: white;
+	font-size: x-large;
+	background-color: #dc5f00
+}
+
+.results-span-no-go{
+	width: 100%;
+	height: 60%;
+	margin: 1.5em .5em 1.5em .5em;
+	padding: .4em;
+	color: white;
+	font-size: x-large;
+	background-color: #dc0000
+}
+
+.category-risk{
+	color: white;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.category-risk-low{
+	background: #10806b;
+}
+
+.category-risk-med{
+	background: #804410;
+}
+
+.category-risk-high{
+	background: #801010;
+}

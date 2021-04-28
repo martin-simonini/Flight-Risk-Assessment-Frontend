@@ -49,7 +49,7 @@ function DynamicFormInput(props) {
     const [formValidation, setFormValidation] = useState(false);
     const [destinationCrosswind, setDestinationCrosswind] = useState(0);
     const [alternateCrosswind, setAlternateCrosswind] = useState(0);
-    const[showResults, setShowResults] = useState(false);
+    const [showResults, setShowResults] = useState(false);
 
     useEffect(() => {
         console.log("Request Data")
@@ -76,7 +76,6 @@ function DynamicFormInput(props) {
             setDisplayPireps(PirepAccordionList);
 
 
-
         })
     }, []);
 
@@ -85,9 +84,42 @@ function DynamicFormInput(props) {
         console.log("Current Weather: ")
         console.log(currentWeather);
 
-        if(isDepartureIFR() || props.requestData.flightRules === "IFR")
-        {
-            console.log("In here");
+        if (isDepartureIFR() || props.requestData.flightRules === "IFR") {
+            if (isLocal()) {
+                const data = {
+                    "is_local": isLocal(),
+                    "departure_vis": currentWeather.metar.visibility,
+                    "departure_ceilings": getCeiling(currentWeather.metar.skyCoverage),
+                    "departure_iap": departureIAP,
+                    "departure_winds": currentWeather.metar.windSpeed,
+                    "departure_gusts": currentWeather.metar.windGust,
+                    "departure_crosswind": currentWeather.crosswind,
+                    "enroute_ceilings": null,
+                    "enroute_vis": null,
+                    "time_enroute": null,
+                    "tunderstorm_risk": null,
+                    "fuel_at_alternate": null,
+                    "destination_vis": null,
+                    "destination_ceilings": null,
+                    "destination_iap": null,
+                    "destination_winds": null,
+                    "destination_gusts": null,
+                    "destination_crosswind": null,
+                    "alternate_vis": null,
+                    "alternate_ceilings": null,
+                    "alternate_iap": null,
+                    "alternate_winds": null,
+                    "alternate_gusts": null,
+                    "alternate_crosswind": null,
+                    "time_of_day": props.timeofFlight,
+                    "flight_duty_period": props.requestData.flightDuty,
+                    "previous_flights": props.requestData.prevFlights,
+                    "temperature": currentWeather.metar.temperature,
+                    "type_of_flight": type_of_flight()
+                }
+                return data;
+
+            }
             const data = {
                 "is_local": isLocal(),
                 "departure_vis": currentWeather.metar.visibility,
@@ -99,32 +131,29 @@ function DynamicFormInput(props) {
                 "enroute_ceilings": enrouteCeiling,
                 "enroute_vis": enrouteVis,
                 "time_enroute": timeEnroute,
-                "tunderstorm_risk":thunderstorm,
+                "tunderstorm_risk": thunderstorm,
                 "fuel_at_alternate": fuelAtAlt,
                 "destination_vis": currentWeather.destinationMetar[0].visibility,
                 "destination_ceilings": getCeiling(currentWeather.destinationMetar[0].skyCoverage),
-                "destination_iap" : destinationIAP,
+                "destination_iap": destinationIAP,
                 "destination_winds": currentWeather.destinationMetar[0].windSpeed,
                 "destination_gusts": currentWeather.destinationMetar[0].windGust,
                 "destination_crosswind": destinationCrosswind,
                 "alternate_vis": currentWeather.alternateMetar.visibility,
                 "alternate_ceilings": getCeiling(currentWeather.alternateMetar.skyCoverage),
-                "alternate_iap" : alternateIAP,
+                "alternate_iap": alternateIAP,
                 "alternate_winds": currentWeather.alternateMetar.windSpeed,
                 "alternate_gusts": currentWeather.alternateMetar.windGust,
                 "alternate_crosswind": alternateCrosswind,
-                "time_of_day" : props.timeofFlight,
+                "time_of_day": props.timeofFlight,
                 "flight_duty_period": props.requestData.flightDuty,
                 "previous_flights": props.requestData.prevFlights,
                 "temperature": currentWeather.metar.temperature,
                 "type_of_flight": type_of_flight()
             }
             return data;
-        }
-        else
-        {
-            if(isLocal())
-            {
+        } else {
+            if (isLocal()) {
                 const data = {
                     "is_local": isLocal(),
                     "is_dual": props.requestData.isDualFlight,
@@ -149,7 +178,7 @@ function DynamicFormInput(props) {
                     "alternate_winds": null,
                     "alternate_gusts": null,
                     "alternate_crosswind": null,
-                    "time_of_day" : props.timeofFlight,
+                    "time_of_day": props.timeofFlight,
                     "flight_duty_period": props.requestData.flightDuty,
                     "previous_flights": props.requestData.prevFlights,
                     "type_of_flight": type_of_flight(),
@@ -161,8 +190,7 @@ function DynamicFormInput(props) {
                     "last_dual_stall": props.lastDualStall
                 }
                 return data;
-            }
-            else{
+            } else {
                 const data = {
                     "is_local": isLocal(),
                     "is_dual": props.requestData.isDualFlight,
@@ -187,7 +215,7 @@ function DynamicFormInput(props) {
                     "alternate_winds": currentWeather.alternateMetar.windSpeed,
                     "alternate_gusts": currentWeather.alternateMetar.windGust,
                     "alternate_crosswind": alternateCrosswind,
-                    "time_of_day" : props.timeofFlight,
+                    "time_of_day": props.timeofFlight,
                     "flight_duty_period": props.requestData.flightDuty,
                     "previous_flights": props.requestData.prevFlights,
                     "type_of_flight": type_of_flight(),
@@ -204,26 +232,26 @@ function DynamicFormInput(props) {
         }
     }
 
-    function getCeiling(skyCoverage)
-    {
+    function getCeiling(skyCoverage) {
         let highestCeiling = 12000;
-        skyCoverage.forEach(i =>{
-            if(i.coverage === "BKN" || i.coverage === "OVC")
-            {
-                if(highestCeiling > i.base)
+        skyCoverage.forEach(i => {
+            if (i.coverage === "BKN" || i.coverage === "OVC") {
+                if (highestCeiling > i.base)
                     highestCeiling = i.base;
-            }
-            else if(i.coverage === "OVX")
-            {
-                if(highestCeiling > i.verticalVis)
+            } else if (i.coverage === "OVX") {
+                if (highestCeiling > i.verticalVis)
                     highestCeiling = i.verticalVis;
             }
         })
         return highestCeiling;
     }
 
-    function isLocal(){
-        return(props.requestData.typeOfFlight === "pattern" || props.requestData.typeOfFlight === "practice_area" || props.requestData.typeOfFlight === "aux_field");
+    function isLocal() {
+        return (props.requestData.typeOfFlight === "pattern" || props.requestData.typeOfFlight === "practice_area" || props.requestData.typeOfFlight === "aux_field");
+    }
+
+    function isIFR(){
+        return props.flightRules === "IFR";
     }
 
     function flight_location() {
@@ -325,7 +353,24 @@ function DynamicFormInput(props) {
             return (<><span className="display-metar lifr">{currentWeather.alternateMetar.rawText}</span><br/></>)
     }
 
-    if(!showResults) {
+    function instrument_local_iap(){
+        return(
+            <>
+                <Form.Group as={Row} controlId="local_bestIAP">
+                    <Form.Label column md="4">What is the best IAP Avialable at the departure airport? </Form.Label>
+                    <Form.Control as="select" column md="8" className="studentInfo" name="student_level"
+                                  onChange={e => setDepartureIAP(e.target.value)}
+                                  value={departureIAP}>
+                        <option value="Precision">Precision</option>
+                        <option value="Non-Precision">Non-Precision</option>
+                        <option value="Circling">Circling</option>
+                    </Form.Control>
+                </Form.Group>
+            </>
+        )
+    }
+
+    if (!showResults) {
         return (
             <>
                 <Row>
@@ -344,6 +389,8 @@ function DynamicFormInput(props) {
                             </Col>
                         </Row>
 
+                        {isIFR()?instrument_local_iap(): ""}
+
                         {isDepartureIFR() &&
                         <Form.Group as={Row} controlId="isInstrumentCurrent">
                             <Form.Label column md="4">Are you instrument Proficient and Current?</Form.Label>
@@ -353,16 +400,10 @@ function DynamicFormInput(props) {
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
                             </Form.Control>
-                            <Form.Label column md="4">What is the best IAP Avialable? </Form.Label>
-                            <Form.Control as="select" column md="8" className="studentInfo" name="student_level"
-                                          onChange={e => setDepartureIAP(e.target.value)}
-                                          value={departureIAP}>
-                                <option value="Precision">Precision</option>
-                                <option value="Non-Precision">Non-Precision</option>
-                                <option value="Circling">Circling</option>
-                            </Form.Control>
+
                         </Form.Group>
                         }
+
                         {requireWinds &&
                         <Form.Group as={Row} controlId="crosswind">
                             <Form.Label column md="4">The winds
@@ -403,7 +444,7 @@ function DynamicFormInput(props) {
                         </Form.Group>
                         }
 
-                        {!isLocal()&&
+                        {!isLocal() &&
                         <CrossCountryQuestions
                             flightRules={props.requestData.flightRules}
                             setEnrouteCeiling={setEnrouteCeiling}
@@ -423,7 +464,8 @@ function DynamicFormInput(props) {
                         <Button className="dash-btn" onClick={() => setShowResults(true)}>
                             Submit
                         </Button>
-                        <Button className="dash-btn" onClick={() => console.log(getCeiling(currentWeather.metar.skyCoverage))}>
+                        <Button className="dash-btn"
+                                onClick={() => console.log(getCeiling(currentWeather.metar.skyCoverage))}>
                             Submit
                         </Button>
                     </Form>
@@ -431,10 +473,10 @@ function DynamicFormInput(props) {
                 </Container>
             </>
         );
-    }
-    else{
+    } else {
         const data = generate_risk_info();
-        return(<ResultPage requestData={data} isDepartureIFR={isDepartureIFR()} />)
+        return (<ResultPage requestData={data} flightRules={props.requestData.flightRules}
+                            isLocal={isLocal} isDual={props.requestData.isDualFlight}/>)
     }
 }
 
