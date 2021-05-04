@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+# Flight Risk Assesment Form
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Flight Risk Assessment Form is an interactive web application where UNO Aviation students would go to fill out a form prior to taking a flight. The web site is adaptable so it can be filled out on all different types of devices including smart phones and iPads. The form includes basic questions about the student pilot as well as information about the intended flight. As the student fills out the interactive form, more questions appear based on previous options that the student has selected. Once the first page is filled out, the student will be taken to a new page that will display the METAR data for the departure, arrival, and alternate airport that they had previously put into the form. Along with the METARs, Airmets and Sigmets will also be displayed to the user. All of this information is color coded to make it easier for students to read and understand. Finally, after a few more questions, the risk factors of the flight are displayed to the student. 
 
-## Available Scripts
+Not only does the web application have the risk assessment form but it also includes an administrative side. This can be reached from a link on the form. Once clicked, the professor will have to login in which will then bring them to the Admin Panel. Here, the instructor can see the current risk limits and also change these limits.  
 
-In the project directory, you can run:
+This application is stored in two GitHub repositories. The first repository is for the frontend. The frontend was coded in React, along with HTML and CSS for formatting. The second repository stores the backend. The backend was coded in Bootstrap along with cucumber for the testing.
 
-### `npm start`
+## How To Run The Application
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The front end of the UNO Flight Risk Assessment form is currently being hosted at https://master.d2yptjh43tx2yz.amplifyapp.com/-. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+With that being said, should someone want to download the code and run it from the GitHub repository follow the following steps.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1) Go to https://github.com/zhartzog/capstone-flight-risk-assesment to download the back end of the project
+2) Go to https://github.com/martin-simonini/Flight-Risk-Assessment-Frontend to download the front end of the project
+3) After the downloads are complete, navigate to the src directory of the back end and open a command prompt. From here, use the command mvn clean install. This will validate the dependencies used by the back end of the project
+4) To run the back end, execute the command mvn spring-boot:run
+5) Once the back end has initialized and started correctly, navigate to the src directory of the front end and execute a clean install again (npm clean install)
+6) After this is complete, execute npm start. The front end should be running on port 3030 of the local host. The end points from the repository are set up to run from the localhost.
