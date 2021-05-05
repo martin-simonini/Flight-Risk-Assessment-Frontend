@@ -56,7 +56,7 @@ function DynamicFormInput(props) {
         console.log(props.requestData)
         axios({
             method: 'post',
-            url: "/basicFormInfo",
+            url: "http://flight-risk-assessment-backend.us-east-2.elasticbeanstalk.com/basicFormInfo",
             headers: {
                 accept: "application/json",
                 "Content-Type": "application/json"

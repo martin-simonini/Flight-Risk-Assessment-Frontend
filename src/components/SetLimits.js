@@ -16,7 +16,7 @@ class SetLimits extends Component {
   }
 
   componentDidMount() {
-    fetch("/adminThresholds/getAll")
+    fetch("http://flight-risk-assessment-backend.us-east-2.elasticbeanstalk.com/adminThresholds/getAll")
       .then(res => res.json())
       .then(
           (result) => {

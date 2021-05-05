@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Col, Container, Jumbotron, Row} from "react-bootstrap";
+import {Button, Col, Container, Jumbotron, Row} from "react-bootstrap";
 import './../stylesheets/RiskAssessmentForm.css';
+import {Link} from "react-router-dom";
 
 function ResultPage(props) {
     const [results, setResults] = useState(null);
@@ -10,7 +11,7 @@ function ResultPage(props) {
         console.log("Results request Data: ")
         console.log(props.requestData)
         console.log("Flight rules:"+props.flightRules);
-        const url = props.flightRules === "IFR" ? "/IFRRiskCalculation" : "/VFRRiskCalculation";
+        const url = "http://flight-risk-assessment-backend.us-east-2.elasticbeanstalk.com"+props.flightRules === "IFR" ? "/IFRRiskCalculation" : "/VFRRiskCalculation";
         console.log("URL: " + url);
         axios({
             method: 'post',

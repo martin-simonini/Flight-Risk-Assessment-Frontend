@@ -33,7 +33,7 @@ class LoginForm extends React.Component{
 	
 	doLogin()	{
 		if(this.state.username !== '' && this.state.password !== ''){
-			fetch("/professors/getByUsername/?username=" + this.state.username)
+			fetch("http://flight-risk-assessment-backend.us-east-2.elasticbeanstalk.com/professors/getByUsername/?username=" + this.state.username)
 				.then(res => res.json())
 			    .then(
 			        (result) => {
