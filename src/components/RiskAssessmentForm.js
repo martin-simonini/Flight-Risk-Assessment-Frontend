@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import moment from 'moment';
-import notams from 'notams';
+
 
 import FlightDutyFormInput from "./FlightDutyFormInput";
 import TypeOfFlightFormInput from "./dynamic_subcomponents/TypeOfFlightFormInput";
